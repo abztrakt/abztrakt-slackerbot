@@ -1,0 +1,5 @@
+slackclient
+urllib3
+pyopenssl
+ndg-httpsclient
+pyasnl
