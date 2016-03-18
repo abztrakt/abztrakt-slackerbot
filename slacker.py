@@ -20,12 +20,12 @@ def message(channel, text):
                           channel=channel,
                           text=text)
 
-def pull_req_check(channel, repo_url):
+def pull_req_check(channel, repo_name, repo_url):
     resp = requests.get(repo_url)
     if resp.content == '[]':
-        message(channel, "{0} has no pull requests".format(repo_url))
+        message(channel, "{0} has no pull requests".format(repo_name))
     else:
-        message(channel, "{0} pull requests:\n".format(repo_url))
+        message(channel, "{0} pull requests:\n".format(repo_name))
         pulls = json.loads(resp.content)
         for pull in pulls:
             message(channel, pull["url"])
@@ -33,8 +33,8 @@ def pull_req_check(channel, repo_url):
 def main(token):
     channel = "#bot-testing"
 
-    for repo_url in settings.PULL_REQ_REPOS:
-        pull_req_check(channel, repo_url)
+    for (repo_name, repo_url) in settings.PULL_REQ_REPOS.iteritems():
+        pull_req_check(channel, repo_name, repo_url)
 
 
 if __name__ == "__main__":
