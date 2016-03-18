@@ -2,8 +2,9 @@
     APIs and do a few useful things.
 """
 
-import settings
+import json
 import requests
+import settings
 from slackclient import SlackClient
 
 # Needed for SSL support on my machine, at least
@@ -25,12 +26,15 @@ def pull_req_check(channel, repo_url):
         message(channel, "{0} has no pull requests".format(repo_url))
     else:
         message(channel, "{0} pull requests:\n".format(repo_url))
-        print "more to come soon..."
+        pulls = json.loads(resp.content)
+        for pull in pulls:
+            message(channel, pull["url"])
 
 def main(token):
     channel = "#bot-testing"
-    repo_url = "https://api.github.com/repos/uw-it-aca/scout/pulls"
-    pull_req_check(channel, repo_url)
+
+    for repo_url in settings.PULL_REQ_REPOS:
+        pull_req_check(channel, repo_url)
 
 
 if __name__ == "__main__":
