@@ -5,11 +5,10 @@ import urllib3.contrib.pyopenssl
 urllib3.contrib.pyopenssl.inject_into_urllib3()
 
 
-def hello(channel, greeting):
-    client = SlackClient(token)
+def message(channel, greeting):
+    sc = SlackClient(token)
 
-    print client.api_call("im.open", user="U0S04BRMJ")
-    print client.api_call("chat.postMessage",
+    print sc.api_call("chat.postMessage",
                           as_user="false",
                           channel=channel,
                           text=greeting)
@@ -17,7 +16,7 @@ def hello(channel, greeting):
 def main(token):
     channel = "#bot-testing"
     greeting = "Hello world!"
-    hello(channel, greeting)
+    message(channel, greeting)
 
 
 if __name__ == "__main__":
