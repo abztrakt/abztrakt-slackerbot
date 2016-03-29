@@ -22,9 +22,7 @@ def message(channel, text):
 
 def pull_req_check(channel, repo_name, repo_url):
     resp = requests.get(repo_url)
-    if resp.content == '[]':
-        message(channel, "{0} has no pull requests".format(repo_name))
-    else:
+    if resp.content != '[]':
         message(channel, "{0} pull requests:\n".format(repo_name))
         pulls = json.loads(resp.content)
         for pull in pulls:
