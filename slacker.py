@@ -22,6 +22,7 @@ def message(channel, text):
 
 def pull_req_check(channel, repo_name, repo_url):
     resp = requests.get(repo_url)
+    import pdb; pdb.set_trace()
     if resp.content != '[]':
         message(channel, "{0} pull requests:\n".format(repo_name))
         pulls = json.loads(resp.content)
