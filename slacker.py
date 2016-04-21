@@ -26,7 +26,12 @@ def pull_req_check(channel, repo_name, repo_url):
         message(channel, "{0} pull requests:\n".format(repo_name))
         pulls = json.loads(resp.content)
         for pull in pulls:
-            message(channel, pull["html_url"])
+            try:
+                assignee = pull['assignee']['login']
+            except TypeError:
+                assignee = "*nobody*"
+        text = "{0} (assigned to {1})".format(pull['html_url'], assignee)
+        message(channel, text)
 
 def main(token):
     channel = "#bot-testing"
